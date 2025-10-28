@@ -1,0 +1,29 @@
+[
+  {
+    "id": "nfl",
+    "title": "NFL Score Prediction",
+    "short": "End-to-end ML pipeline using XGBoost and Pandas for game score forecasts.",
+    "tags": ["Machine Learning", "Time Series"],
+    "cover": "assets/nfl_thumb.png",
+    "page": "project.html?id=nfl",
+    "dataset": "data/nfl_predictions.csv"
+  },
+  {
+    "id": "trip",
+    "title": "TripAdvisor Sentiment Analysis",
+    "short": "Analyzed 5K hotel reviews with VADER and topic keywords for insights.",
+    "tags": ["NLP", "Sentiment"],
+    "cover": "assets/trip_thumb.png",
+    "page": "project.html?id=trip",
+    "dataset": "data/tripadvisor_sentiment.json"
+  },
+  {
+    "id": "landslide",
+    "title": "Landslide Susceptibility Mapping",
+    "short": "ML-driven geospatial analysis identifying hazard zones in the Dominican Republic.",
+    "tags": ["Geospatial", "GIS"],
+    "cover": "assets/landslide_thumb.png",
+    "page": "project.html?id=landslide",
+    "dataset": "data/landslide_zones.geojson"
+  }
+]
