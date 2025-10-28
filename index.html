@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RUTH PHILIPPE · Data Science Portfolio</title>
+  <meta name="description" content="Ruth Philippe — colorful, interactive data science portfolio with charts, tables, and maps." />
+
+  <!-- Tailwind CSS (Play CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Poppins', 'ui-sans-serif', 'system-ui'],
+            body: ['Inter', 'ui-sans-serif', 'system-ui'],
+          },
+          colors: {
+            ruthPink: '#FF49DB',
+            ruthBlue: '#4EA8FF',
+            ruthLime: '#B4F461',
+            ruthPurple: '#9C6DFF',
+            ruthSand:  '#EDE0D4',
+            ruthInk:   '#1C1C1C',
+          },
+          boxShadow: {
+            glow: '0 0 40px rgba(255,73,219,0.35)',
+          },
+        }
+      }
+    }
+  </script>
+  <!-- Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Poppins:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/lucide-static@0.463.0/font/lucide.css">
+
+  <!-- Grid.js (interactive tables) -->
+  <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+  <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+
+  <!-- Plotly.js (interactive charts) -->
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+  <!-- Leaflet (interactive maps) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <style>
+    /* Fun accent background blobs */
+    .blob { filter: blur(60px); opacity: 0.4; }
+    .glass { backdrop-filter: blur(8px); background: rgba(255,255,255,0.08); }
+    .rainbow { background: linear-gradient(90deg, #FF49DB, #4EA8FF, #B4F461, #9C6DFF); background-size: 200% 200%; animation: rainbow 8s ease infinite; }
+    @keyframes rainbow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    .badge { border: 1px dashed rgba(255,255,255,0.25); }
+    .tilt:hover { transform: rotate(-0.5deg) translateY(-2px); }
+  </style>
+</head>
+<body class="bg-ruthInk text-white font-body selection:bg-ruthPink/60">
+  <!-- Decorative blobs -->
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="blob absolute -top-24 -left-24 w-[380px] h-[380px] rounded-full bg-ruthPink"></div>
+    <div class="blob absolute top-1/3 -right-10 w-[320px] h-[320px] rounded-full bg-ruthBlue"></div>
+    <div class="blob absolute bottom-10 left-1/4 w-[260px] h-[260px] rounded-full bg-ruthLime"></div>
+  </div>
+
+  <!-- NAV -->
+  <header class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-black/30 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <span class="inline-block w-8 h-8 rounded-xl rainbow shadow-glow"></span>
+        <span class="font-display text-xl font-extrabold tracking-tight">RUTH PHILIPPE</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#work" class="hover:text-ruthLime">Work</a>
+        <a href="#about" class="hover:text-ruthLime">About</a>
+        <a href="#contact" class="hover:text-ruthLime">Contact</a>
+        <button id="themeToggle" class="ml-2 px-3 py-1 rounded-lg border border-white/20 hover:border-white/40">Theme</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="max-w-7xl mx-auto px-4 py-16 md:py-24">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 badge px-3 py-1 rounded-full text-xs uppercase tracking-widest text-white/80 mb-4">Data Scientist · Geografía · ML</div>
+        <h1 class="font-display text-5xl md:text-6xl font-black leading-tight">
+          Big personality.
+          <span class="rainbow bg-clip-text text-transparent">Bold data stories.</span>
+        </h1>
+        <p class="mt-5 text-white/80 text-lg leading-relaxed max-w-prose">I build interactive, colorful data products—from geospatial ML and forecasting to NLP dashboards. Tap any project below to explore live charts, tables, and maps.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <span class="px-3 py-1 rounded-full bg-white/10">Python · Pandas · SQL</span>
+          <span class="px-3 py-1 rounded-full bg-white/10">Plotly</span>
+          <span class="px-3 py-1 rounded-full bg-white/10">Leaflet</span>
+          <span class="px-3 py-1 rounded-full bg-white/10">Grid.js</span>
+        </div>
+        <div class="mt-10 flex gap-4">
+          <a href="#work" class="px-5 py-3 rounded-xl rainbow text-black font-semibold shadow-glow">Explore my work</a>
+          <a href="#contact" class="px-5 py-3 rounded-xl border border-white/20 hover:border-white/40">Hire me</a>
+        </div>
+      </div>
+      <div class="glass rounded-3xl border border-white/10 p-6 shadow-xl tilt transition-transform">
+        <div id="heroChart" class="h-[340px]"></div>
+        <p class="mt-3 text-sm text-white/70">Live demo: Interactive Plotly chart. (Replace with your real project data.)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work" class="max-w-7xl mx-auto px-4 pb-24">
+    <h2 class="font-display text-3xl md:text-4xl font-extrabold mb-6">Featured Projects</h2>
+
+    <!-- Filters -->
+    <div class="flex flex-wrap gap-2 mb-8">
+      <button class="filter-btn px-3 py-1 rounded-full border border-white/20 hover:border-white/40 text-sm" data-tag="all">All</button>
+      <button class="filter-btn px-3 py-1 rounded-full border border-white/20 hover:border-white/40 text-sm" data-tag="ml">Machine Learning</button>
+      <button class="filter-btn px-3 py-1 rounded-full border border-white/20 hover:border-white/40 text-sm" data-tag="geo">Geospatial</button>
+      <button class="filter-btn px-3 py-1 rounded-full border border-white/20 hover:border-white/40 text-sm" data-tag="nlp">NLP</button>
+      <button class="filter-btn px-3 py-1 rounded-full border border-white/20 hover:border-white/40 text-sm" data-tag="ts">Time Series</button>
+    </div>
+
+    <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <!-- Project 1: Interactive Table + Chart -->
+      <article class="project-card glass rounded-2xl border border-white/10 p-5 hover:shadow-glow transition-shadow" data-tags="ml ts">
+        <div class="flex items-center justify-between gap-3">
+          <h3 class="font-display text-xl font-bold">NFL Score Prediction (Mock)</h3>
+          <span class="text-xs px-2 py-1 rounded-full bg-ruthBlue/30">Time Series</span>
+        </div>
+        <p class="mt-2 text-white/70 text-sm">End-to-end pipeline: feature engineering, XGBoost baseline, and interactive evaluation.</p>
+        <div id="proj1_chart" class="mt-4 h-[220px]"></div>
+        <div id="proj1_table" class="mt-4"></div>
+        <div class="mt-4 flex flex-wrap gap-2 text-xs">
+          <span class="px-2 py-1 rounded-full bg-white/10">Pandas</span>
+          <span class="px-2 py-1 rounded-full bg-white/10">XGBoost</span>
+          <span class="px-2 py-1 rounded-full bg-white/10">Plotly</span>
+          <span class="px-2 py-1 rounded-full bg-white/10">Grid.js</span>
+        </div>
+      </article>
+
+      <!-- Project 2: Geospatial Map -->
+      <article class="project-card glass rounded-2xl border border-white/10 p-5 hover:shadow-glow transition-shadow" data-tags="geo ml">
+        <div class="flex items-center justify-between gap-3">
+          <h3 class="font-display text-xl font-bold">Landslide Susceptibility — Dominican Republic</h3>
+          <span class="text-xs px-2 py-1 rounded-full bg-ruthLime/30">Geospatial</span>
+        </div>
+        <p class="mt-2 text-white/70 text-sm">Leaflet demo. Toggle layers and inspect cells. Replace with your raster/GeoJSON.</p>
+        <div id="proj2_map" class="mt-4 h-[260px] rounded-xl overflow-hidden"></div>
+        <div class="mt-4 flex flex-wrap gap-2 text-xs">
+          <span class="px-2 py-1 rounded-full bg-white/10">Leaflet</span>
+          <span class="px-2 py-1 rounded-full bg-white/10">GeoJSON</span>
+          <span class="px-2 py-1 rounded-full bg-white/10">Raster</span>
+        </div>
+      </article>
+
+      <!-- Project 3: NLP Sentiment -->
+      <article class="project-card glass rounded-2xl border border-white/10 p-5 hover:shadow-glow transition-shadow" data-tags="nlp">
+        <div class="flex items-center justify-between gap-3">
+          <h3 class="font-display text-xl font-bold">TripAdvisor Sentiment · Hotel Reviews</h3>
+          <span class="text-xs px-2 py-1 rounded-full bg-ruthPurple/30">NLP</span>
+        </div>
+        <p class="mt-2 text-white/70 text-sm">VADER sentiment with topic keywords. Explore ratings vs polarity.</p>
+        <div id="proj3_chart" class="mt-4 h-[220px]"></div>
+        <div id="proj3_table" class="mt-4"></div>
+        <div class="mt-4 flex flex-wrap gap-2 text-xs">
+          <span class="px-2 py-1 rounded-full bg-white/10">VADER</span>
+          <span class="px-2 py-1 rounded-full bg-white/10">Tokenization</span>
+          <span class="px-2 py-1 rounded-full bg-white/10">Plotly</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="max-w-7xl mx-auto px-4 pb-24">
+    <div class="grid md:grid-cols-3 gap-8 items-start">
+      <div class="md:col-span-1">
+        <h2 class="font-display text-3xl md:text-4xl font-extrabold">About me</h2>
+        <p class="mt-4 text-white/80">I’m Ruth—Geography + Data Science. I love bold colors, clean code, and making complex things playful and easy to explore.</p>
+      </div>
+      <div class="md:col-span-2 glass rounded-2xl border border-white/10 p-6">
+        <ul class="grid sm:grid-cols-2 gap-4 text-sm text-white/80">
+          <li>• Python (Pandas, Scikit‑learn, XGBoost, GeoPandas)</li>
+          <li>• SQL (Postgres/BigQuery), ETL, dbt basics</li>
+          <li>• Plotly, Leaflet, Grid.js for interactivity</li>
+          <li>• GIS & Geomorphology · UASD</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="max-w-7xl mx-auto px-4 pb-24">
+    <div class="glass rounded-2xl border border-white/10 p-6">
+      <h2 class="font-display text-3xl md:text-4xl font-extrabold">Let’s build something 🌈</h2>
+      <p class="mt-2 text-white/80">DM me on LinkedIn or open an issue on GitHub. I’m open to freelance and collaborations.</p>
+      <div class="mt-4 flex flex-wrap gap-3 text-sm">
+        <a class="px-4 py-2 rounded-xl border border-white/20 hover:border-white/40" href="#" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="px-4 py-2 rounded-xl border border-white/20 hover:border-white/40" href="#" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a class="px-4 py-2 rounded-xl border border-white/20 hover:border-white/40" href="mailto:your-email@example.com">Email</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-10 text-center text-white/50 text-sm">© <span id="year"></span> Ruth Philippe · Made with ♥️ & color</footer>
+
+  <!-- DATA + SCRIPTS -->
+  <script>
+    // Theme toggle (dark by default with vibrant accents)
+    const themeBtn = document.getElementById('themeToggle');
+    let light = false;
+    themeBtn?.addEventListener('click', () => {
+      document.body.classList.toggle('bg-ruthInk');
+      document.body.classList.toggle('bg-white');
+      document.body.classList.toggle('text-white');
+      document.body.classList.toggle('text-black');
+      light = !light;
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // HERO CHART (Plotly) — replace with real data later
+    (function heroChart(){
+      const x = [...Array(24).keys()].map(i => `W${i+1}`);
+      const y1 = x.map((_,i)=> Math.round(18 + 7*Math.sin(i/2) + Math.random()*3));
+      const y2 = x.map((_,i)=> Math.round(15 + 6*Math.cos(i/2) + Math.random()*3));
+      Plotly.newPlot('heroChart', [
+        {x, y: y1, mode:'lines+markers', name:'Model A'},
+        {x, y: y2, mode:'lines+markers', name:'Model B'}
+      ], {margin:{t:10,r:10,l:30,b:30}, paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)'} , {displayModeBar:false});
+    })();
+
+    // FILTERS
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.project-card');
+    buttons.forEach(btn=>btn.addEventListener('click',()=>{
+      const tag = btn.dataset.tag;
+      cards.forEach(card=>{
+        const tags = card.getAttribute('data-tags').split(' ');
+        card.style.display = (tag==='all' || tags.includes(tag)) ? 'block':'none';
+      });
+    }));
+
+    // PROJECT 1 — NFL mock (chart + table)
+    (function proj1(){
+      const weeks = [19,19,19,20,20];
+      const home = ['PHI','TB','LA','KC','DET'];
+      const away = ['GB','WAS','MIN','HOU','WAS'];
+      const ph = [28.1,22.8,21.3,24.3,29.8];
+      const pa = [24.5,23.2,23.5,20.5,23.2];
+      Plotly.newPlot('proj1_chart', [
+        {x: home.map((h,i)=>`${h} vs ${away[i]}`), y: ph, type:'bar', name:'Home'},
+        {x: home.map((h,i)=>`${h} vs ${away[i]}`), y: pa, type:'bar', name:'Away'}
+      ], {barmode:'group', margin:{t:10,r:10,l:30,b:40}, paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)'}, {displayModeBar:false});
+
+      new gridjs.Grid({
+        columns: ['week','home_team','away_team','predicted_home_score','predicted_away_score'],
+        data: weeks.map((w,i)=> [w, home[i], away[i], ph[i], pa[i]]),
+        search: true,
+        sort: true,
+        pagination: { limit: 5 }
+      }).render(document.getElementById('proj1_table'));
+    })();
+
+    // PROJECT 2 — Leaflet map mock
+    (function proj2(){
+      const map = L.map('proj2_map').setView([18.9,-70.5], 7); // Dominican Republic approx
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(map);
+      const geojson = {
+        "type":"FeatureCollection",
+        "features":[
+          {"type":"Feature","properties":{"risk":"High"},"geometry":{"type":"Polygon","coordinates":[[[-70.8,19.0],[-70.3,19.0],[-70.3,18.6],[-70.8,18.6],[-70.8,19.0]]]}},
+          {"type":"Feature","properties":{"risk":"Medium"},"geometry":{"type":"Polygon","coordinates":[[[-71.4,19.3],[-70.9,19.3],[-70.9,18.9],[-71.4,18.9],[-71.4,19.3]]]}}
+        ]
+      };
+      function style(f){
+        return { color: f.properties.risk==='High' ? '#FF49DB' : '#4EA8FF', weight:2, fillOpacity:0.3 };
+      }
+      L.geoJSON(geojson, {style, onEachFeature:(f,layer)=> layer.bindPopup(`Risk: <b>${f.properties.risk}</b>`) }).addTo(map);
+    })();
+
+    // PROJECT 3 — NLP sentiment mock
+    (function proj3(){
+      const ratings = [5,4,1,3,5,2,4,5,3,1];
+      const polarity = [0.85,0.61,-0.7,0.15,0.92,-0.35,0.4,0.88,0.05,-0.82];
+      Plotly.newPlot('proj3_chart', [
+        {x: ratings, y: polarity, mode:'markers', type:'scatter', name:'Review', text: ratings.map((r,i)=>`Review ${i+1}`)}
+      ], {xaxis:{title:'Star rating'}, yaxis:{title:'VADER polarity'}, margin:{t:10,r:10,l:40,b:40}, paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)'}, {displayModeBar:false});
+
+      new gridjs.Grid({
+        columns: ['review_id','stars','polarity','keywords'],
+        data: [
+          [1,5,0.85,'view, location'],
+          [2,4,0.61,'breakfast, staff'],
+          [3,1,-0.70,'noise, room'],
+          [4,3,0.15,'pool, price'],
+          [5,5,0.92,'clean, bed'],
+          [6,2,-0.35,'wait, check-in'],
+          [7,4,0.40,'service, lobby'],
+          [8,5,0.88,'view, modern'],
+          [9,3,0.05,'wifi, bar'],
+          [10,1,-0.82,'dirty, bathroom']
+        ],
+        search: true,
+        sort: true,
+        pagination: { limit: 5 }
+      }).render(document.getElementById('proj3_table'));
+    })();
+  </script>
+</body>
+</html>
