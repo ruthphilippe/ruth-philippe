@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project · RUTH PHILIPPE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body class="bg-[#1C1C1C] text-white font-[Inter]">
+  <main class="max-w-5xl mx-auto px-4 py-12">
+    <a href="index.html" class="text-pink-400 hover:underline">← Back to portfolio</a>
+    <h1 id="title" class="font-bold text-4xl mt-6"></h1>
+    <p id="desc" class="text-white/80 mt-2"></p>
+    <div id="content" class="mt-10 space-y-10"></div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const projectId = params.get('id');
+
+    fetch('projects.json')
+      .then(r => r.json())
+      .then(projects => {
+        const project = projects.find(p => p.id === projectId);
+        if (!project) return;
+        document.getElementById('title').textContent = project.title;
+        document.getElementById('desc').textContent = project.short;
+
+        // Load data dynamically
+        const ext = project.dataset.split('.').pop();
+        if (ext === 'csv') renderCSV(project.dataset);
+        if (ext === 'json') renderJSON(project.dataset);
+        if (ext === 'geojson') renderMap(project.dataset);
+      });
+
+    function renderCSV(path) {
+      fetch(path).then(r => r.text()).then(txt => {
+        const rows = txt.trim().split('\\n').map(r => r.split(','));
+        const [cols, ...data] = rows;
+        new gridjs.Grid({ columns: cols, data, search:true, pagination:{limit:10} })
+          .render(document.getElementById('content'));
+      });
+    }
+
+    function renderJSON(path) {
+      fetch(path).then(r => r.json()).then(data => {
+        const cols = Object.keys(data[0]);
+        const rows = data.map(d=>Object.values(d));
+        new gridjs.Grid({ columns: cols, data: rows, search:true, pagination:{limit:10} })
+          .render(document.getElementById('content'));
+        const x = data.map(d=>d.stars);
+        const y = data.map(d=>d.polarity);
+        Plotly.newPlot('content', [{x,y,mode:'markers'}], {margin:{t:40}});
+      });
+    }
+
+    function renderMap(path) {
+      const div = document.createElement('div');
+      div.id = 'map';
+      div.className = 'h-[400px] rounded-lg overflow-hidden';
+      document.getElementById('content').appendChild(div);
+      const map = L.map('map').setView([18.9,-70.5],7);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
+      fetch(path).then(r=>r.json()).then(gj=>{
+        L.geoJSON(gj,{style:f=>({color:f.properties.risk==='High'?'#FF49DB':'#4EA8FF',fillOpacity:0.4})}).addTo(map);
+      });
+    }
+  </script>
+</body>
+</html>
